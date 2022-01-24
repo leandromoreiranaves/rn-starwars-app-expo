@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React from 'react'
+import AppLoading from 'expo-app-loading'
+import { ThemeProvider } from 'styled-components'
+import {
+  useFonts,
+  SourceSansPro_400Regular,
+  SourceSansPro_700Bold,
+  SourceSansPro_600SemiBold,
+  SourceSansPro_900Black,
+} from '@expo-google-fonts/source-sans-pro'
+import { theme } from './src/styles'
+import { Routes } from './src/routes'
+
+// AsyncStorage.clear()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts({
+    SourceSansPro_400Regular,
+    SourceSansPro_700Bold,
+    SourceSansPro_600SemiBold,
+    SourceSansPro_900Black,
+  })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Routes />
+    </ThemeProvider>
+  )
+}
